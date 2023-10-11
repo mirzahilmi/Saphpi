@@ -4,13 +4,19 @@ namespace Saphpi;
 class Router {
     private array $routes;
     private Request $request;
+    private Response $response;
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request, Response $response) {
         $this->request = $request;
+        $this->response = $response;
     }
 
     public function get(string $path, callable | string $callback): void {
         $this->routes['get'][$path] = $callback;
+    }
+
+    public function post(string $path, callable | string $callback): void {
+        $this->routes['post'][$path] = $callback;
     }
 
     public function resolve(): ?string {
@@ -18,17 +24,18 @@ class Router {
         $method = $this->request->getMethod();
         $callback = $this->routes[$method][$path] ?? false;
         if ($callback === false) {
-            return '<h1>404 Not Found</h1>';
+            $this->response->setHttpStatus(404);
+            return $this->renderView('error/404');
         }
         if (is_string($callback)) {
             $viewName = $callback;
             return $this->renderView($viewName);
         }
 
-        return call_user_func($callback);
+        return $callback();
     }
 
-    private function renderView(string $name): string {
+    public function renderView(string $name): string {
         $content = $this->getContent($name);
         $layout = $this->getLayout();
         return str_replace('{{ CONTENT }}', $content, $layout);
@@ -45,5 +52,4 @@ class Router {
         include_once Application::$ROOT_DIR . '/view/layout/app.sapi.php';
         return ob_get_clean();
     }
-
 }
