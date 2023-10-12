@@ -11,37 +11,42 @@ class Router {
         $this->response = $response;
     }
 
-    public function get(string $path, callable | string $callback): void {
+    public function get(string $path, callable | string | array $callback): void {
         $this->routes['get'][$path] = $callback;
     }
 
-    public function post(string $path, callable | string $callback): void {
+    public function post(string $path, callable | string | array $callback): void {
         $this->routes['post'][$path] = $callback;
     }
 
     public function resolve(): ?string {
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
-        $callback = $this->routes[$method][$path] ?? false;
-        if ($callback === false) {
+        $instance = $this->routes[$method][$path] ?? false;
+        if ($instance === false) {
             $this->response->setHttpStatus(404);
             return $this->renderView('error/404');
         }
-        if (is_string($callback)) {
-            $viewName = $callback;
-            return $this->renderView($viewName);
+        if (is_string($instance)) {
+            return $this->renderView($instance);
+        }
+        if (is_array($instance)) {
+            $instance[0] = new $instance[0]();
         }
 
-        return $callback();
+        return $instance();
     }
 
-    public function renderView(string $name): string {
-        $content = $this->getContent($name);
+    public function renderView(string $name, array $props = []): string {
+        $content = $this->getContent($name, $props);
         $layout = $this->getLayout();
         return str_replace('{{ CONTENT }}', $content, $layout);
     }
 
-    private function getContent(string $name): string {
+    private function getContent(string $name, array $props): string {
+        foreach ($props as $key => $value) {
+            $$key = $value;
+        }
         ob_start();
         include_once Application::$ROOT_DIR . "/view/{$name}.sapi.php";
         return ob_get_clean();
@@ -49,7 +54,7 @@ class Router {
 
     private function getLayout(): string {
         ob_start();
-        include_once Application::$ROOT_DIR . '/view/layout/app.sapi.php';
+        include_once Application::$ROOT_DIR . '/view/app.sapi.php';
         return ob_get_clean();
     }
 }
