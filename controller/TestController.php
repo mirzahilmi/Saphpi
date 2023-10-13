@@ -1,8 +1,15 @@
 <?php
 namespace Saphpi\Controller;
 
-class TestController {
-    public function index(): string {
-        return 'I\'m from a controller';
+use Saphpi\Controller;
+use Saphpi\Request;
+
+class TestController extends Controller {
+    public function login(): string {
+        return $this->render('login', ['var' => 'Test here']);
+    }
+
+    public function handleLogin(Request $request) {
+        
     }
 }
