@@ -16,5 +16,6 @@ $app->router->get('/foo', [TestController::class, 'index']);
 $app->router->get('/bar', function() {
     return '<h1>Hello There</h1>';
 });
+$app->router->get('/form', [TestController::class, 'handleLogin']);
 
 $app->run();

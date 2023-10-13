@@ -3,9 +3,9 @@ namespace Saphpi;
 
 class Application {
     public static Application $app;
-    public Router $router;
-    public Request $request;
-    public Response $response;
+    public readonly Router $router;
+    public readonly Request $request;
+    public readonly Response $response;
     public static string $ROOT_DIR;
 
     public function __construct(string $rootPath) {
