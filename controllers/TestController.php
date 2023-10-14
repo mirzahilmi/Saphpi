@@ -4,6 +4,7 @@ namespace Saphpi\Controllers;
 use Saphpi\Request;
 use Saphpi\Validator;
 use Saphpi\Controller;
+use Saphpi\Models\User;
 
 class TestController extends Controller {
     public function login(): string {
@@ -24,9 +25,6 @@ class TestController extends Controller {
             exit;
         }
 
-        echo '<pre>';
-        var_dump($payload['validated']);
-        echo '</pre>';
-        exit;
+        $user = new User($payload['validated']);
     }
 }

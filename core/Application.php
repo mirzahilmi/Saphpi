@@ -9,7 +9,7 @@ class Application {
     public readonly Response $response;
     public static string $ROOT_DIR;
 
-    public function __construct(string $rootPath, Database &$db) {
+    public function __construct(string $rootPath, Database $db) {   
         self::$app = $this;
         self::$ROOT_DIR = $rootPath;
         $this->db = $db;
