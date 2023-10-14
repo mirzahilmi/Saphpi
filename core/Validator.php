@@ -2,6 +2,7 @@
 namespace Saphpi;
 
 use Saphpi\Contracts\Validation\DataAwareRule;
+use Saphpi\Rules\Required;
 
 class Validator {
     private function __construct() {}
@@ -17,11 +18,15 @@ class Validator {
                     $rule = substr($rule, 0, $colonPos);
                 }
 
-                $rule = "Saphpi\Rules\\$rule";
+                $rule = "Saphpi\\Rules\\$rule";
                 /** @var \Saphpi\Contracts\Validation\ValidationRule */
                 @$instance = new $rule($arg);
                 if ($instance instanceof DataAwareRule) {
                     $instance->setData($datas);
+                }
+
+                if (!isset($datas[$attribute]) && !$instance instanceof Required) {
+                    continue 2;
                 }
 
                 if ($instance->validate($attribute, $datas[$attribute] ?? null) === false) {

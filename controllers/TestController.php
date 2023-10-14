@@ -1,9 +1,9 @@
 <?php
 namespace Saphpi\Controllers;
 
-use Saphpi\Controller;
 use Saphpi\Request;
 use Saphpi\Validator;
+use Saphpi\Controller;
 
 class TestController extends Controller {
     public function login(): string {
@@ -12,7 +12,8 @@ class TestController extends Controller {
 
     public function handleLogin(Request $request) {
         $payload = Validator::validate($request->getBody(), [
-            'username' => ['Required'],
+            'email'    => ['Required'],
+            'username' => ['Characters'],
             'password' => ['Required'],
         ]);
 
