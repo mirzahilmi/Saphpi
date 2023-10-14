@@ -34,7 +34,7 @@ class Router {
             $instance[0] = new $instance[0]();
         }
 
-        return $instance($this->request);
+        return $instance($this->request, $this->response);
     }
 
     public function renderView(string $name, array $props = []): string {
