@@ -6,7 +6,8 @@
     "autoload": {
         "psr-4": {
             "Saphpi\\": "core/",
-            "Saphpi\\Controller\\": "controller/"
+            "Saphpi\\Controllers\\": "controllers/",
+            "Saphpi\\Rules\\": "rules/"
         }
     },
     "authors": [
