@@ -2,23 +2,54 @@
 namespace Saphpi;
 
 class Application {
-    public static Application $app;
-    public readonly Database $db;
-    public readonly Router $router;
-    public readonly Request $request;
-    public readonly Response $response;
+    private static Application $app;
+    private readonly Database $database;
+    private readonly Router $router;
+    private readonly Request $request;
+    private readonly Response $response;
+    private readonly Session $session;
     public static string $ROOT_DIR;
+    public bool $supressWarning = false;
 
-    public function __construct(string $rootPath, Database $db) {   
+    public function __construct(string $rootPath, Database $database) {
         self::$app = $this;
         self::$ROOT_DIR = $rootPath;
-        $this->db = $db;
+        $this->database = $database;
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
+        $this->session = new Session();
+    }
+
+    public static function db(): Database {
+        return self::$app->database;
+    }
+
+    public static function router(): Router {
+        return self::$app->router;
+    }
+
+    public static function request(): Request {
+        return self::$app->request;
+    }
+
+    public static function response(): Response {
+        return self::$app->response;
+    }
+
+    public static function session(): Session {
+        return self::$app->session;
     }
 
     public function run(): void {
-        echo $this->router->resolve();
+        try {
+            echo $this->router->resolve();
+        } catch (\Throwable $t) {
+            if ($this->supressWarning) {
+                echo $this->router->renderView('error/404');
+            } else {
+                echo $t->getMessage();
+            }
+        }
     }
 }

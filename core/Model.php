@@ -3,7 +3,7 @@ namespace Saphpi;
 
 abstract class Model {
     protected function database(): Database {
-        $database = Application::$app->db;
+        $database = Application::db();
         $database->establishConnection();
         return $database;
     }

@@ -45,7 +45,7 @@ class Router {
 
     private function getLayout(): string {
         ob_start();
-        include_once Application::$ROOT_DIR . '/view/app.sapi.php';
+        require_once Application::$ROOT_DIR . '/view/app.sapi.php';
         return ob_get_clean();
     }
 
@@ -54,7 +54,7 @@ class Router {
             $$key = $value;
         }
         ob_start();
-        include_once Application::$ROOT_DIR . "/view/{$name}.sapi.php";
+        require_once Application::$ROOT_DIR . "/view/{$name}.sapi.php";
         return ob_get_clean();
     }
 }

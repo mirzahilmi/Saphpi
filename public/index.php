@@ -20,15 +20,15 @@ $app = new Application(dirname(__DIR__), new Database(
     $env['DB_DATABASE']
 ));
 
-$app->router->get('/foo', function () {
+$app->router()->get('/foo', function () {
     return 'Hello World';
 });
-$app->router->get('/', 'index');
-$app->router->post('/login', '');
-$app->router->get('/bar', function () {
+$app->router()->get('/', 'index');
+$app->router()->post('/login', '');
+$app->router()->get('/bar', function () {
     return '<h1>Hello There</h1>';
 });
-$app->router->get('/index', [TestController::class, 'login']);
-$app->router->get('/form', [TestController::class, 'handleLogin']);
+$app->router()->get('/index', [TestController::class, 'login']);
+$app->router()->get('/form', [TestController::class, 'handleLogin']);
 
 $app->run();
