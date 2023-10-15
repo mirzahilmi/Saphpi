@@ -3,7 +3,7 @@ namespace Saphpi;
 
 class Application {
     private static Application $app;
-    private readonly Database $database;
+    private readonly ?Database $database;
     private readonly Router $router;
     private readonly View $view;
     private readonly Request $request;
