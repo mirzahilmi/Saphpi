@@ -5,6 +5,7 @@ class Session {
     private const FLASH_KEY = 'flash';
 
     public function __construct() {
+        session_save_path(Application::$ROOT_DIR . '/runtime');
         session_start();
 
         $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];

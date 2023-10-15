@@ -44,11 +44,14 @@ class Application {
     public function run(): void {
         try {
             echo $this->router->resolve();
-        } catch (\Throwable $t) {
+        } catch (\Throwable $e) {
+            $code = !empty($e->getCode()) ? $e->getCode() : 500;
+            $this->response->setHttpStatus($code);
+            
             if ($this->supressWarning) {
                 echo $this->router->renderView('error/404');
             } else {
-                echo $t->getMessage();
+                echo $e->getMessage();
             }
         }
     }

@@ -1,6 +1,9 @@
 <?php
 namespace Saphpi;
 
+use Saphpi\Exceptions\NotFoundException;
+use Saphpi\Exceptions\NotImplementException;
+
 class Router {
     private array $routes;
     private Request $request;
@@ -24,17 +27,38 @@ class Router {
         $method = $this->request->getMethod();
         $instance = $this->routes[$method][$path] ?? false;
         if ($instance === false) {
-            $this->response->setHttpStatus(404);
-            return $this->renderView('error/404');
+            throw new NotFoundException();
         }
         if (is_string($instance)) {
             return $this->renderView($instance);
         }
         if (is_array($instance)) {
             $instance[0] = new $instance[0]();
+            if (!$instance[0] instanceof Controller) {
+                throw new NotImplementException("{$instance[0]} does not implement Controller abstract");
+            }
+            $this->checkForMiddlewares($instance[1], $instance[0]->getMiddlewares());
         }
 
         return $instance($this->request, $this->response);
+    }
+
+    /**
+     * Check for handler middleware
+     *
+     * @param string $handler
+     * @param \Saphpi\Middleware[] $middlewares
+     * @return void
+     */
+    private function checkForMiddlewares(string $handler, array $middlewares): void {
+        foreach ($middlewares as $middleware) {
+            $protectedHandlers = $middleware->getProtectedHandlers();
+            if (!($protectedHandlers[0] === '*' || in_array($handler, $protectedHandlers))) {
+                continue;
+            }
+
+            $middleware->execute($this->request);
+        }
     }
 
     public function renderView(string $name, array $props = []): string {
@@ -45,7 +69,7 @@ class Router {
 
     private function getLayout(): string {
         ob_start();
-        require_once Application::$ROOT_DIR . '/view/app.sapi.php';
+        @require_once Application::$ROOT_DIR . '/view/app.sapi.php';
         return ob_get_clean();
     }
 
@@ -54,7 +78,7 @@ class Router {
             $$key = $value;
         }
         ob_start();
-        require_once Application::$ROOT_DIR . "/view/{$name}.sapi.php";
+        @require_once Application::$ROOT_DIR . "/view/{$name}.sapi.php";
         return ob_get_clean();
     }
 }

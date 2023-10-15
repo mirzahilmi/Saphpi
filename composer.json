@@ -8,7 +8,9 @@
             "Saphpi\\": "core/",
             "Saphpi\\Controllers\\": "controllers/",
             "Saphpi\\Rules\\": "rules/",
-            "Saphpi\\Models\\": "models/"
+            "Saphpi\\Models\\": "models/",
+            "Saphpi\\Middlewares\\": "middlewares/",
+            "Saphpi\\Exceptions\\": "exceptions/"
         }
     },
     "authors": [
