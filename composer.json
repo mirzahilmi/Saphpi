@@ -1,19 +1,26 @@
 {
     "name": "mirzahilmi/saphpi",
-    "description": "Saphpi, pronounced sapi is a web application framework that implement MVC pattern inspired by many popular framework such as Laravel and others with simpler and little footprint.",
+    "description": "Saphpi, pronounced `sapi` is a web application framework that implements the MVC pattern. It's inspired by many popular frameworks and is designed to be explicit with batteries included.",
     "type": "library",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Saphpi\\": "core/"
-        }
-    },
     "authors": [
         {
             "name": "Mirza Hilmi",
             "email": "exquisitemirza@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Saphpi\\": "core/",
+            "Saphpi\\Controllers\\": "controllers/",
+            "Saphpi\\Rules\\": "rules/",
+            "Saphpi\\Models\\": "models/",
+            "Saphpi\\Middlewares\\": "middlewares/",
+            "Saphpi\\Exceptions\\": "exceptions/"
+        }
+    },
+    "minimum-stability": "dev"
 }
