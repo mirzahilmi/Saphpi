@@ -1,8 +1,8 @@
 <?php
 namespace Saphpi\Rules;
 
-use Saphpi\Contracts\Validation\DataAwareRule;
-use Saphpi\Contracts\Validation\ValidationRule;
+use Saphpi\Core\Contracts\Validation\DataAwareRule;
+use Saphpi\Core\Contracts\Validation\ValidationRule;
 
 class Required implements ValidationRule, DataAwareRule {
     private array $datas;
