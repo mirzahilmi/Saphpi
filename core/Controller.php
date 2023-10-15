@@ -11,7 +11,7 @@ abstract class Controller {
         return Application::view()->renderView($name, $props);
     }
 
-    protected function registerMiddlewares(Middleware ...$middlewares): void {
+    protected function registerMiddlewares(Middleware...$middlewares): void {
         $this->middlewares = $middlewares;
     }
 
@@ -22,5 +22,5 @@ abstract class Controller {
      */
     public function getMiddlewares(): array {
         return $this->middlewares;
-    } 
+    }
 }

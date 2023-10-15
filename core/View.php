@@ -4,6 +4,16 @@ namespace Saphpi;
 class View {
     public string $title;
 
+    public function error(\Throwable $e, bool $suppress): string {
+        $code = !empty($e->getCode()) ? $e->getCode() : 500;
+        Application::response()->setHttpStatus($code);
+
+        if ($suppress) {
+            return $this->renderView("error/$code");
+        }
+        return $this->renderView("error/$code", ['error' => $e->getMessage()]);
+    }
+
     public function renderView(string $name, array $props = []): string {
         $content = $this->getContent($name, $props);
         $layout = $this->getLayout();

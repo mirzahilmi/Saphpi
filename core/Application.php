@@ -12,7 +12,7 @@ class Application {
     public static string $ROOT_DIR;
     public bool $supressWarning = false;
 
-    public function __construct(string $rootPath, Database $database) {
+    public function __construct(string $rootPath, Database $database = null) {
         self::$app = $this;
         self::$ROOT_DIR = $rootPath;
         $this->database = $database;
@@ -51,14 +51,7 @@ class Application {
         try {
             echo $this->router->resolve();
         } catch (\Throwable $e) {
-            $code = !empty($e->getCode()) ? $e->getCode() : 500;
-            $this->response->setHttpStatus($code);
-            
-            if ($this->supressWarning) {
-                echo $this->view->renderView('error/404');
-            } else {
-                echo $e->getMessage();
-            }
+            echo $this->view->error($e, $this->supressWarning);
         }
     }
 }

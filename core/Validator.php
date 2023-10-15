@@ -1,8 +1,10 @@
 <?php
 namespace Saphpi;
 
-use Saphpi\Contracts\Validation\DataAwareRule;
 use Saphpi\Rules\Required;
+use Saphpi\Exceptions\NotImplementException;
+use Saphpi\Contracts\Validation\DataAwareRule;
+use Saphpi\Contracts\Validation\ValidationRule;
 
 class Validator {
     private function __construct() {}
@@ -21,6 +23,10 @@ class Validator {
                 $rule = "Saphpi\\Rules\\$rule";
                 /** @var \Saphpi\Contracts\Validation\ValidationRule */
                 @$instance = new $rule($arg);
+                if (!$instance instanceof ValidationRule) {
+                    throw new NotImplementException("$rule does not implement ValidationRule interface");
+                }
+
                 if ($instance instanceof DataAwareRule) {
                     $instance->setData($datas);
                 }
