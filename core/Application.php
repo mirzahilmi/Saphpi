@@ -9,6 +9,7 @@ class Application {
     private readonly Request $request;
     private readonly Response $response;
     private readonly Session $session;
+    private readonly Prompt $prompt;
     public static string $ROOT_DIR;
     public bool $suppressWarning = false;
 
@@ -21,6 +22,7 @@ class Application {
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
         $this->session = new Session();
+        $this->prompt = new Prompt();
     }
 
     public static function db(): Database {
@@ -45,6 +47,10 @@ class Application {
 
     public static function session(): Session {
         return self::$app->session;
+    }
+
+    public static function prompt(): Prompt {
+        return self::$app->prompt;
     }
 
     public function run(): void {
