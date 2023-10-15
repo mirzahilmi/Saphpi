@@ -1,7 +1,7 @@
 <?php
 namespace Saphpi\Rules;
 
-use Saphpi\Contracts\Validation\ValidationRule;
+use Saphpi\Core\Contracts\Validation\ValidationRule;
 
 class Characters implements ValidationRule {
     public function validate(string $attribute, mixed $value): bool {
