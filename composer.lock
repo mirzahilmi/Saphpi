@@ -1,0 +1,61 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "29b75fcd3d925696f063acfb14882790",
+    "packages": [
+        {
+            "name": "mirzahilmi/saphpi-core",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MirzaHilmi/Saphpi-Core.git",
+                "reference": "76d38d6cc393eae02a3167fc6da3070f173a2374"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MirzaHilmi/Saphpi-Core/zipball/76d38d6cc393eae02a3167fc6da3070f173a2374",
+                "reference": "76d38d6cc393eae02a3167fc6da3070f173a2374",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Saphpi\\Core\\": "core/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mirza Hilmi",
+                    "email": "exquisitemirza@gmail.com"
+                }
+            ],
+            "description": "Saphpi Core serves as the foundational component of the Saphpi web framework. It is here that all the essential building blocks of the framework are constructed and integrated.",
+            "support": {
+                "issues": "https://github.com/MirzaHilmi/Saphpi-Core/issues",
+                "source": "https://github.com/MirzaHilmi/Saphpi-Core/tree/1.0.0"
+            },
+            "time": "2023-10-15T14:59:04+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.1"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

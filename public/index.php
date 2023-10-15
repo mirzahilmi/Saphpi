@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+use Saphpi\Core\Application;
 
-use Saphpi\Application;
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $env = parse_ini_file('../.env');
 if ($env === false) {

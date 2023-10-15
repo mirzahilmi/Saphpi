@@ -1,6 +1,6 @@
 <?php
 
-use Saphpi\Database;
+use Saphpi\Core\Database;
 
 require_once __DIR__ . '/vendor/autoload.php';
 

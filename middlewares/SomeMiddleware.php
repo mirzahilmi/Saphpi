@@ -1,5 +1,5 @@
 <?php
-namespace Saphpi\Middleware;
+namespace Saphpi\Middlewares;
 
 use Saphpi\Request;
 use Saphpi\Middleware;
