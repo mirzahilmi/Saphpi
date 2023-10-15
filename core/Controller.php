@@ -8,7 +8,7 @@ abstract class Controller {
     protected array $middlewares = [];
 
     protected function render(string $name, array $props = []): string {
-        return Application::router()->renderView($name, $props);
+        return Application::view()->renderView($name, $props);
     }
 
     protected function registerMiddlewares(Middleware ...$middlewares): void {

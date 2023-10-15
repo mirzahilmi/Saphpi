@@ -5,6 +5,7 @@ class Application {
     private static Application $app;
     private readonly Database $database;
     private readonly Router $router;
+    private readonly View $view;
     private readonly Request $request;
     private readonly Response $response;
     private readonly Session $session;
@@ -15,6 +16,7 @@ class Application {
         self::$app = $this;
         self::$ROOT_DIR = $rootPath;
         $this->database = $database;
+        $this->view = new View();
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
@@ -27,6 +29,10 @@ class Application {
 
     public static function router(): Router {
         return self::$app->router;
+    }
+
+    public static function view(): View {
+        return self::$app->view;
     }
 
     public static function request(): Request {
@@ -49,7 +55,7 @@ class Application {
             $this->response->setHttpStatus($code);
             
             if ($this->supressWarning) {
-                echo $this->router->renderView('error/404');
+                echo $this->view->renderView('error/404');
             } else {
                 echo $e->getMessage();
             }
