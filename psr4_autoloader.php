@@ -1,33 +1,24 @@
 <?php
 spl_autoload_register('psr4Autoload');
 
+const AUTOLOAD = [
+    'Saphpi\\Core\\'        => 'core/',
+    'Saphpi\\Controllers\\' => 'controllers/',
+    'Saphpi\\Rules\\'       => 'rules/',
+    'Saphpi\\Models\\'      => 'models/',
+    'Saphpi\\Middlewares\\' => 'middlewares/',
+    'Saphpi\\Exceptions\\'  => 'exceptions/',
+];
+
 function psr4Autoload($class) {
-    $classPath = str_replace('\\', '/', $class);
-    $namespaceArr = explode('/', $classPath);
-    array_splice($namespaceArr, 0, 1);
-    switch ($namespaceArr[0]) {
-        case 'Controllers':
-            $namespaceArr[0] = 'controllers';
-            break;
-        case 'Rules':
-            $namespaceArr[0] = 'rules';
-            break;
-        case 'Models':
-            $namespaceArr[0] = 'models';
-            break;
-        case 'Middlewares':
-            $namespaceArr[0] = 'middlewares';
-            break;
-        case 'Exceptions':
-            $namespaceArr[0] = 'exceptions';
-            break;
-        default:
-            $namespaceArr[0] = 'core';
+    $classNamespace = str_replace(array_keys(AUTOLOAD), array_values(AUTOLOAD), $class, $count);
+    if ($count === 0) {
+        throw new Exception("Cannot find $class class");
     }
-    $namespace = implode('/', $namespaceArr);
+    $classPath = str_replace('\\', '/', $classNamespace);
 
     $root = __DIR__;
-    $filePath = "$root/$namespace.php";
+    $filePath = "$root/$classPath.php";
     if (file_exists($filePath)) {
         require $filePath;
     }
