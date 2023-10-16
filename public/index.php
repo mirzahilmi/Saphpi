@@ -2,7 +2,7 @@
 
 use Saphpi\Core\Application;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../psr4_autoloader.php';
 
 $env = parse_ini_file('../.env');
 if ($env === false) {
