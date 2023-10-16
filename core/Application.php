@@ -10,7 +10,7 @@ class Application {
     private readonly Response $response;
     private readonly Session $session;
     public static string $ROOT_DIR;
-    public bool $supressWarning = false;
+    public bool $suppressWarning = false;
 
     public function __construct(string $rootPath, Database $database = null) {
         self::$app = $this;
@@ -51,7 +51,7 @@ class Application {
         try {
             echo $this->router->resolve();
         } catch (\Throwable $e) {
-            echo $this->view->error($e, $this->supressWarning);
+            echo $this->view->error($e, $this->suppressWarning);
         }
     }
 }
