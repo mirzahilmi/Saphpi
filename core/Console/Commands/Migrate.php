@@ -34,7 +34,7 @@ class Migrate extends Command {
         Application::db()->closeConnection();
     }
 
-    public function up(array $migrations = []) {
+    private function up(array $migrations = []) {
         if (!empty($migrations)) {
             $this->migrations = array_intersect_key($this->migrations, array_flip($migrations));
             if (empty($this->migrations)) {
@@ -62,6 +62,7 @@ class Migrate extends Command {
             $script = $this->readScript($path);
             Application::db()->conn()->exec($script);
         }
+
         print 'Finished dropping tables...' . PHP_EOL;
     }
 
