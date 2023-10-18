@@ -24,7 +24,7 @@ class Prompt {
             /** @var \Saphpi\Core\Console\Command */
             $command = new $class($args, $flags);
         } catch (\Throwable) {
-            echo "{$className} command does not exists";
+            echo "{$className} command does not exists" . PHP_EOL;
         }
 
         $command->handle();
