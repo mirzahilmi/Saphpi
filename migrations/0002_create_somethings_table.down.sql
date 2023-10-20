@@ -1,1 +1,1 @@
-DROP TABLE somethings;
+DROP TABLE IF EXISTS somethings;
