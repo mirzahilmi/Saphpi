@@ -8,13 +8,20 @@ class View {
         $code = !empty($e->getCode()) ? $e->getCode() : 500;
         Application::response()->setHttpStatus($code);
 
-        $codeStr = substr("{$code}", 0, 1);
+        $msg = '';
         if ($suppress) {
-            return $this->renderView("errors/{$codeStr}xx");
+            $msg = $e->getMessage();
+        } else {
+            ob_start();
+            var_dump($e);
+            $msg = ob_get_clean();
         }
+
+        $codeStr = substr("{$code}", 0, 1);
+
         return $this->renderView("layouts/default>errors/{$codeStr}xx", [
             'code'    => $code,
-            'message' => $e->getMessage(),
+            'message' => $msg,
         ], 'Ooops.. there\'s something wrong');
     }
 
