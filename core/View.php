@@ -8,10 +8,14 @@ class View {
         $code = !empty($e->getCode()) ? $e->getCode() : 500;
         Application::response()->setHttpStatus($code);
 
+        $codeStr = substr("{$code}", 0, 1);
         if ($suppress) {
-            return $this->renderView("errors/$code");
+            return $this->renderView("errors/{$codeStr}xx");
         }
-        return $this->renderView("app>errors/$code", ['error' => $e->getMessage()], 'Error');
+        return $this->renderView("layouts/default>errors/{$codeStr}xx", [
+            'code'    => $code,
+            'message' => $e->getMessage(),
+        ], 'Ooops.. there\'s something wrong');
     }
 
     public function renderView(string $name, array $props = [], string $title = 'Page'): string {
