@@ -62,4 +62,13 @@ class Create extends Command {
     private function view(string $name) {
         $this->create("views/{$name}.sapi.php");
     }
+
+    private function middleware(string $name) {
+        $stubContent = file_get_contents(Application::$ROOT_DIR . '/core/Console/Commands/Stubs/Middleware.stub');
+        if ($stubContent === false) {
+            throw new Exception('Middleware stub file does not exist!');
+        }
+
+        $this->create("middlewares/{$name}.php", sprintf($stubContent, $name));
+    }
 }
