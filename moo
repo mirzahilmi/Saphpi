@@ -17,7 +17,7 @@ $app = new Application(__DIR__, new Database(
     $env['DB_PORT'],
     $env['DB_USERNAME'],
     $env['DB_PASSWORD'],
-    $env['DB_DATABASE'],
+    $env['DB_SCHEMA'],
 ));
 
 $app->prompt()->resolve();
