@@ -28,10 +28,10 @@ Follow these steps to get started with Saphpi:
 
 3. Start building your Saphpi application by creating controllers, models, and views.
 
-4. Start the web server by running this command inside the `public/` directory
+4. Start the web server by running this command
 
     ```shell
-    php -S localhost:port
+    php moo serve
     ```
 
 ## Examples
