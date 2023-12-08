@@ -1,0 +1,6 @@
+<?php
+namespace Saphpi\Models;
+
+use Saphpi\Core\Model;
+
+class %s extends Model {}

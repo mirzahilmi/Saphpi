@@ -1,0 +1,14 @@
+<?php
+namespace Saphpi\Rules;
+
+use Saphpi\Core\Contracts\Validation\ValidationRule;
+
+class %s implements ValidationRule {
+    public function validate(string $attribute, mixed $value): bool {
+        return true;
+    }
+
+    public function error(): string {
+        return ':attribute isn\'t correct';
+    }
+}
