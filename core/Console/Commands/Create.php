@@ -58,4 +58,8 @@ class Create extends Command {
 
         $this->create("rules/{$name}.php", sprintf($stubContent, $name));
     }
+
+    private function view(string $name) {
+        $this->create("views/{$name}.sapi.php");
+    }
 }
