@@ -2,7 +2,7 @@
 namespace Saphpi\Core;
 
 class Database {
-    private \PDO $connection;
+    private ?\PDO $connection;
 
     public const MYSQL = 'mysql:host=%s;port=%d;dbname=%s';
     public const POSTGRESQL = 'pgsql:host=%s;port=%d;dbname=%s';
@@ -30,10 +30,22 @@ class Database {
         $this->databaseName = $databaseName;
     }
 
-    public function establishConnection(): void {
+    public function establishConnection() : void {
         try {
-            $this->connection = new \PDO(sprintf($this->driver, $this->host, $this->port, $this->databaseName), $this->username, $this->password);
-            $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->connection = new \PDO(
+                sprintf(
+                    $this->driver,
+                    $this->host,
+                    $this->port,
+                    $this->databaseName
+                ),
+                $this->username,
+                $this->password
+            );
+            $this->connection->setAttribute(
+                \PDO::ATTR_ERRMODE,
+                \PDO::ERRMODE_EXCEPTION
+            );
         } catch (\Throwable $th) {
             die($th->getMessage());
         }
