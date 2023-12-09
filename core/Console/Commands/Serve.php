@@ -6,8 +6,8 @@ use Saphpi\Core\Console\Command;
 
 class Serve extends Command {
     public function handle(): void {
-        if (isset($this->args[0])) {
-            exec('cd ' . Application::$ROOT_DIR . "/{$this->args[0]}" . ' && php -S localhost:8080');
+        if (@($boot = $this->args[0])) {
+            exec('cd ' . Application::$ROOT_DIR . "/{$boot}" . ' && php -S localhost:8080');
             return;
         }
 
