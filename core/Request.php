@@ -2,7 +2,29 @@
 namespace Saphpi\Core;
 
 class Request {
-    public function getPath(): string {
+    private ?string $path;
+    private ?string $method;
+    private ?array $body;
+
+    public function __construct() {
+        $this->path = @$this->assignPath();
+        $this->method = @$this->assignMethod();
+        $this->body = @$this->assignBody();
+    }
+
+    public function getPath(): ?string {
+        return $this->path;
+    }
+
+    public function getMethod(): ?string {
+        return $this->method;
+    }
+
+    public function getBody(): ?array {
+        return $this->body;
+    }
+
+    public function assignPath(): ?string {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
 
         $queryStringPos = strpos($path, '?');
@@ -14,18 +36,19 @@ class Request {
         return $path;
     }
 
-    public function getMethod(): string {
-        return strtolower($_SERVER['REQUEST_METHOD']);
+    public function assignMethod(): ?string {
+        return $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
     }
 
-    public function getBody(): array {
+    public function assignBody(): ?array {
         $body = [];
 
-        if ($this->getMethod() === 'get') {
+        $method = $this->assignMethod();
+        if ($method === 'GET') {
             foreach ($_GET as $key => $_) {
                 $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
-        } elseif ($this->getMethod() === 'post') {
+        } elseif ($method === 'POST' || $method === 'PUT' || $method === 'PATCH' || $method === 'DELETE') {
             foreach ($_POST as $key => $_) {
                 $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
