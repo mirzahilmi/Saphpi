@@ -15,11 +15,23 @@ class Router {
     }
 
     public function get(string $path, callable | string | array $callback): void {
-        $this->routes['get'][$path] = $callback;
+        $this->routes['GET'][$path] = $callback;
     }
 
     public function post(string $path, callable | string | array $callback): void {
-        $this->routes['post'][$path] = $callback;
+        $this->routes['POST'][$path] = $callback;
+    }
+
+    public function put(string $path, callable | string | array $callback): void {
+        $this->routes['PUT'][$path] = $callback;
+    }
+
+    public function patch(string $path, callable | string | array $callback): void {
+        $this->routes['PATCH'][$path] = $callback;
+    }
+
+    public function delete(string $path, callable | string | array $callback): void {
+        $this->routes['DELETE'][$path] = $callback;
     }
 
     public function resolve(): ?string {
