@@ -10,7 +10,7 @@ class Application {
     private readonly Response $response;
     private readonly Session $session;
     private readonly Prompt $prompt;
-    public readonly string $ROOT_DIR;
+    public static string $ROOT_DIR;
     public bool $suppressWarning = false;
 
     public function __construct(Database $database = null) {
