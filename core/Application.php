@@ -10,12 +10,12 @@ class Application {
     private readonly Response $response;
     private readonly Session $session;
     private readonly Prompt $prompt;
-    public static string $ROOT_DIR;
+    public readonly string $ROOT_DIR;
     public bool $suppressWarning = false;
 
-    public function __construct(string $rootPath, Database $database = null) {
+    public function __construct(Database $database = null) {
         self::$app = $this;
-        self::$ROOT_DIR = $rootPath;
+        self::$ROOT_DIR = dirname(__DIR__);
         $this->database = $database;
         $this->view = new View();
         $this->request = new Request();

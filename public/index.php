@@ -9,7 +9,7 @@ if ($env === false) {
     die('Failed to load .env file');
 }
 
-$app = new Application(dirname(__DIR__));
+$app = new Application();
 
 $app->router()->get('/', 'index');
 

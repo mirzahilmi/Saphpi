@@ -11,7 +11,7 @@ if ($env === false) {
     die('Failed to load .env file');
 }
 
-$app = new Application(__DIR__, new Database(
+$app = new Application(new Database(
     Database::MYSQL,
     $env['DB_HOST'],
     $env['DB_PORT'],
