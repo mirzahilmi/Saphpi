@@ -19,6 +19,7 @@ class Create extends Command {
         if (empty($lastMigration)) {
             $this->create("migrations/0001_create_{$name}_table.up.sql");
             $this->create("migrations/0001_create_{$name}_table.down.sql");
+            return;
         }
 
         $numberIdentifier = substr($lastMigration, 0, strpos($lastMigration, '_'));
