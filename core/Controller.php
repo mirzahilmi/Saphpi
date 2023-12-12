@@ -9,6 +9,10 @@ abstract class Controller {
         return Application::view()->renderView($name, $props);
     }
 
+    protected function redirect(string $path): void {
+        Application::response()->redirect($path);
+    }
+
     protected function registerMiddlewares(Middleware...$middlewares): void {
         $this->middlewares = $middlewares;
     }

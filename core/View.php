@@ -9,20 +9,25 @@ class View {
         Application::response()->setHttpStatus($code);
 
         if ($suppress) {
-            return $this->renderView("error/$code");
+            return $this->renderView("errors/$code");
         }
-        return $this->renderView("error/$code", ['error' => $e->getMessage()]);
+        return $this->renderView("app>errors/$code", ['error' => $e->getMessage()]);
     }
 
     public function renderView(string $name, array $props = []): string {
-        $content = $this->getContent($name, $props);
-        $layout = $this->getLayout();
-        return str_replace('<Content></Content>', $content, $layout);
+        if (count($template = explode('>', $name)) !== 1) {
+            $content = $this->getContent($template[1], $props);
+            $layout = $this->getLayout($template[0]);
+            return str_replace('<Content></Content>', $content, $layout);
+        }
+
+        $view = $this->getContent($name, $props);
+        return $view;
     }
 
-    private function getLayout(): string {
+    private function getLayout(string $name): string {
         ob_start();
-        @require_once Application::$ROOT_DIR . '/views/app.sapi.php';
+        @require_once Application::$ROOT_DIR . "/views/{$name}.sapi.php";
         return ob_get_clean();
     }
 
