@@ -11,7 +11,7 @@ class View {
         if ($suppress) {
             return $this->renderView("errors/$code");
         }
-        return $this->renderView("app>errors/$code", ['error' => $e->getMessage()]);
+        return $this->renderView("app>errors/$code", ['error' => $e->getMessage()], 'Error');
     }
 
     public function renderView(string $name, array $props = [], string $title = 'Page'): string {
