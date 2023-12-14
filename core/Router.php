@@ -49,6 +49,7 @@ class Router {
             if (!$instance[0] instanceof Controller) {
                 throw new NotImplementException("{$instance[0]} does not implement Controller abstract");
             }
+            $instance[0]->registerResponse($this->response);
             $this->checkForMiddlewares($instance[1], $instance[0]->getMiddlewares());
         }
 

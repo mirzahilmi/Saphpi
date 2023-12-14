@@ -9,7 +9,7 @@ use Saphpi\Core\Contracts\Validation\ValidationRule;
 class Validator {
     private function __construct() {}
 
-    public static function validate(array $datas, array $attributeRules) {
+    public static function validate(array $datas, array $attributeRules): array {
         $arr = [];
 
         foreach ($attributeRules as $attribute => $rules) {

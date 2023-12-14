@@ -5,8 +5,10 @@ abstract class Controller {
     /** @var \Saphpi\Middleware[] $middlewares */
     protected array $middlewares = [];
 
-    protected function render(string $name, array $props = []): string {
-        return Application::view()->renderView($name, $props);
+    protected Response $response;
+
+    protected function render(string $name, array $props = [], string $title): string {
+        return Application::view()->renderView($name, $props, $title);
     }
 
     protected function redirect(string $path): void {
@@ -24,5 +26,9 @@ abstract class Controller {
      */
     public function getMiddlewares(): array {
         return $this->middlewares;
+    }
+
+    public function registerResponse(Response $response): void {
+        $this->response = $response;
     }
 }

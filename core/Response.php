@@ -9,4 +9,8 @@ class Response {
     public function redirect(string $path): void {
         header("Location: $path");
     }
+
+    public function withFlash(mixed $value, string $key = 'message'): void {
+        Application::session()->flash($value, $key);
+    }
 }

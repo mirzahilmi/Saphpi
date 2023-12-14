@@ -14,10 +14,10 @@ class View {
         return $this->renderView("app>errors/$code", ['error' => $e->getMessage()]);
     }
 
-    public function renderView(string $name, array $props = []): string {
+    public function renderView(string $name, array $props = [], string $title = 'Page'): string {
         if (count($template = explode('>', $name)) !== 1) {
+            $layout = $this->getLayout($template[0], $title);
             $content = $this->getContent($template[1], $props);
-            $layout = $this->getLayout($template[0]);
             return str_replace('<Content></Content>', $content, $layout);
         }
 
@@ -25,7 +25,7 @@ class View {
         return $view;
     }
 
-    private function getLayout(string $name): string {
+    private function getLayout(string $name, string $title): string {
         ob_start();
         @require_once Application::$ROOT_DIR . "/views/{$name}.sapi.php";
         return ob_get_clean();
