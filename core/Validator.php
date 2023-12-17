@@ -7,10 +7,14 @@ use Saphpi\Core\Contracts\Validation\DataAwareRule;
 use Saphpi\Core\Contracts\Validation\ValidationRule;
 
 class Validator {
+    private ?array $validated;
+    private ?array $errors;
+    private bool $failed = false;
+
     private function __construct() {}
 
-    public static function validate(array $datas, array $attributeRules): array {
-        $arr = [];
+    public static function validate(array $datas, array $attributeRules): Validator {
+        $validator = new Validator();
 
         foreach ($attributeRules as $attribute => $rules) {
             foreach ($rules as $rule) {
@@ -36,13 +40,26 @@ class Validator {
                 }
 
                 if ($instance->validate($attribute, $datas[$attribute] ?? null) === false) {
-                    $arr['errors'][$attribute] = str_replace(':attribute', $attribute, $instance->error());
+                    $validator->errors[] = sprintf($instance->error(), $attribute);
+                    $validator->failed = true;
                 } else {
-                    $arr['validated'][$attribute] = $datas[$attribute];
+                    $validator->validated = $datas[$attribute];
                 }
             }
         }
 
-        return $arr;
+        return $validator;
+    }
+
+    public function validated(): ?array {
+        return $this->validated;
+    }
+
+    public function errors(): ?array {
+        return $this->errors;
+    }
+
+    public function fails(): bool {
+        return $this->failed;
     }
 }
