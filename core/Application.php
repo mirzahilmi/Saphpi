@@ -3,30 +3,27 @@ namespace Saphpi\Core;
 
 class Application {
     private static Application $app;
-    private readonly ?Database $database;
-    private readonly Router $router;
-    private readonly View $view;
-    private readonly Request $request;
-    private readonly Response $response;
-    private readonly Session $session;
-    private readonly Prompt $prompt;
+    private Router $router;
+    private View $view;
+    private Request $request;
+    private Response $response;
+    private Session $session;
+    private Prompt $prompt;
+
     public static string $ROOT_DIR;
     public bool $suppressWarning = false;
 
-    public function __construct(Database $database = null) {
+    public function __construct() {
         self::$app = $this;
-        self::$ROOT_DIR = dirname(__DIR__);
-        $this->database = $database;
+
         $this->view = new View();
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
         $this->session = new Session();
         $this->prompt = new Prompt();
-    }
 
-    public static function db(): Database {
-        return self::$app->database;
+        self::$ROOT_DIR = dirname(__DIR__);
     }
 
     public static function router(): Router {
