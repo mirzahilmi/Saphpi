@@ -10,7 +10,7 @@ class Database {
         string $dsn,
         string $username,
         string $password,
-    ) {
+    ) : void {
         self::$db = new \PDO($dsn, $username, $password);
     }
 }
