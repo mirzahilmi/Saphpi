@@ -14,14 +14,13 @@ class Application {
 
     public function __construct() {
         self::$app = $this;
+        self::$ROOT_DIR = dirname(__DIR__);
 
         $this->view = new View();
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
         $this->session = new Session();
-
-        self::$ROOT_DIR = dirname(__DIR__);
     }
 
     public static function router(): Router {

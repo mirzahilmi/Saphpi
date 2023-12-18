@@ -11,6 +11,6 @@ if ($env === false) {
 
 $app = new Application();
 
-$app->router()->get('/', 'app>index');
+$app->router()->get('/', 'layouts/app>index');
 
 $app->run();
