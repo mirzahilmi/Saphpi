@@ -3,7 +3,7 @@ namespace Saphpi\Core\Console\Commands;
 
 use Exception;
 use RuntimeException;
-use Saphpi\Core\Application;
+use Saphpi\Core\Database;
 use Saphpi\Core\Console\Command;
 
 class Migrate extends Command {
@@ -11,9 +11,7 @@ class Migrate extends Command {
     private array $downs;
 
     public function handle(): void {
-        $this->bindScriptNames(Application::$ROOT_DIR . '/migrations');
-
-        Application::db()->establishConnection();
+        $this->bindScriptNames(ROOT . '/migrations');
 
         if (in_array('--down', $this->flags, true)) {
             if (!empty($this->args)) {
@@ -22,7 +20,6 @@ class Migrate extends Command {
                 $this->drop();
             }
 
-            Application::db()->closeConnection();
             return;
         }
 
@@ -31,7 +28,10 @@ class Migrate extends Command {
         }
 
         $this->up($this->args);
-        Application::db()->closeConnection();
+    }
+
+    private function executeQuery(string $query): void {
+        Database::$db->exec($query);
     }
 
     private function up(array $migrations = []) {
@@ -44,23 +44,24 @@ class Migrate extends Command {
 
         print 'Running migration...' . PHP_EOL;
         foreach ($this->migrations as $name => $path) {
-            print "Migrating {$name}..." . PHP_EOL;
+            print "|---> Migrating {$name}..." . PHP_EOL;
             $script = $this->readScript($path);
-            Application::db()->conn()->exec($script);
+            $this->executeQuery($script);
         }
         print 'Migration finished...' . PHP_EOL;
     }
 
     private function drop(array $downs = []) {
+        $this->downs = array_reverse($this->downs);
         if (!empty($downs)) {
             $this->downs = array_intersect_key($this->downs, array_flip($downs));
         }
 
         print 'Dropping tables...' . PHP_EOL;
         foreach ($this->downs as $name => $path) {
-            print "Dropping {$name}..." . PHP_EOL;
+            print "|---> Dropping {$name}..." . PHP_EOL;
             $script = $this->readScript($path);
-            Application::db()->conn()->exec($script);
+            $this->executeQuery($script);
         }
 
         print 'Finished dropping tables...' . PHP_EOL;
@@ -74,7 +75,7 @@ class Migrate extends Command {
 
         array_splice($scriptNames, 0, 2);
 
-        $regex = '/(?<=\d{4}_create_)\w+(?=_table.(up|down).sql)/';
+        $regex = '/(?<=\d{4}_create_)\w+(?=_(table|procedure|view).(up|down).sql)/';
         foreach ($scriptNames as $scriptName) {
             if (!preg_match($regex, $scriptName, $matches)) {
                 throw new RuntimeException("{$scriptName} is not a correct migration name!");

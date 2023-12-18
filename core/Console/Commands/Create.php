@@ -2,7 +2,6 @@
 namespace Saphpi\Core\Console\Commands;
 
 use Exception;
-use Saphpi\Core\Application;
 use Saphpi\Core\Console\Command;
 
 class Create extends Command {
@@ -11,11 +10,11 @@ class Create extends Command {
     }
 
     private function create(string $name, string $content = ''): void {
-        file_put_contents(Application::$ROOT_DIR . "/{$name}", $content);
+        file_put_contents(ROOT . "/{$name}", $content);
     }
 
     private function migration(string $name): void {
-        $lastMigration = exec('ls ' . Application::$ROOT_DIR . '/migrations | tail -1');
+        $lastMigration = exec('ls ' . ROOT . '/migrations | tail -1');
         if (empty($lastMigration)) {
             $this->create("migrations/0001_create_{$name}_table.up.sql");
             $this->create("migrations/0001_create_{$name}_table.down.sql");
@@ -34,7 +33,7 @@ class Create extends Command {
     }
 
     private function controller(string $name) {
-        $stubContent = file_get_contents(Application::$ROOT_DIR . '/core/Console/Commands/Stubs/Controller.stub');
+        $stubContent = file_get_contents(ROOT . '/core/Console/Commands/Stubs/Controller.stub');
         if ($stubContent === false) {
             throw new Exception('Controller stub file does not exist!');
         }
@@ -43,7 +42,7 @@ class Create extends Command {
     }
 
     private function model(string $name) {
-        $stubContent = file_get_contents(Application::$ROOT_DIR . '/core/Console/Commands/Stubs/Model.stub');
+        $stubContent = file_get_contents(ROOT . '/core/Console/Commands/Stubs/Model.stub');
         if ($stubContent === false) {
             throw new Exception('Model stub file does not exist!');
         }
@@ -52,7 +51,7 @@ class Create extends Command {
     }
 
     private function rule(string $name) {
-        $stubContent = file_get_contents(Application::$ROOT_DIR . '/core/Console/Commands/Stubs/Rule.stub');
+        $stubContent = file_get_contents(ROOT . '/core/Console/Commands/Stubs/Rule.stub');
         if ($stubContent === false) {
             throw new Exception('Rule stub file does not exist!');
         }
@@ -65,7 +64,7 @@ class Create extends Command {
     }
 
     private function middleware(string $name) {
-        $stubContent = file_get_contents(Application::$ROOT_DIR . '/core/Console/Commands/Stubs/Middleware.stub');
+        $stubContent = file_get_contents(ROOT . '/core/Console/Commands/Stubs/Middleware.stub');
         if ($stubContent === false) {
             throw new Exception('Middleware stub file does not exist!');
         }
